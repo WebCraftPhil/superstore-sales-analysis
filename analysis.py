@@ -19,7 +19,6 @@ sns.set_palette('husl')
 
 # Constants
 DATA_PATH = 'data/superstore_sales.csv'
-OUTPUT_DIR = 'output/'
 
 
 def load_and_prepare_data(filepath):
