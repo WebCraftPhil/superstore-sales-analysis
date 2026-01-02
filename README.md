@@ -44,6 +44,7 @@ superstore-sales-analysis/
 ├── notebooks/
 │   └── superstore_analysis.ipynb     # Main analysis notebook
 │
+├── analysis.py                       # Python script for quick analysis
 ├── requirements.txt                   # Python dependencies
 ├── README.md                         # Project documentation
 └── .gitignore                        # Git ignore file
@@ -69,12 +70,27 @@ cd superstore-sales-analysis
 pip install -r requirements.txt
 ```
 
-3. Launch Jupyter Notebook:
+### Usage Options
+
+**Option 1: Run the Python Script (Quick Analysis)**
+
+For a quick text-based analysis with key insights:
+```bash
+python analysis.py
+```
+
+This will output all analysis results directly to the console.
+
+**Option 2: Use Jupyter Notebook (Full Interactive Analysis)**
+
+For the complete interactive analysis with visualizations:
+
+1. Launch Jupyter Notebook:
 ```bash
 jupyter notebook
 ```
 
-4. Open `notebooks/superstore_analysis.ipynb` and run the cells
+2. Open `notebooks/superstore_analysis.ipynb` and run the cells
 
 ## 📦 Dependencies
 
