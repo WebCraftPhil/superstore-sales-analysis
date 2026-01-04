@@ -33,6 +33,11 @@ This project analyzes retail sales data from a fictional superstore to uncover i
    - Profit margin calculations
    - Identification of high and low-margin products
 
+6. **How does shipping performance vary by mode?**
+   - Shipping delay analysis across different shipping modes
+   - Distribution and trends of delivery times
+   - Identification of shipping efficiency opportunities
+
 ## 📁 Project Structure
 
 ```
@@ -42,7 +47,9 @@ superstore-sales-analysis/
 │   └── superstore_sales.csv          # Sample retail sales dataset
 │
 ├── notebooks/
-│   └── superstore_analysis.ipynb     # Main analysis notebook
+│   ├── superstore_analysis.ipynb          # Main analysis notebook
+│   ├── 01_exploratory_analysis.ipynb      # Initial exploratory data analysis
+│   └── shipping_performance_analysis.ipynb # Shipping delay analysis
 │
 ├── analysis.py                       # Python script for quick analysis
 ├── requirements.txt                   # Python dependencies
@@ -114,9 +121,17 @@ jupyter notebook
 The analysis includes various visualizations:
 - Line charts for time series trends
 - Bar charts for category comparisons
+- Box plots for distribution analysis
 - Pie charts for distribution analysis
 - Scatter plots for relationship analysis
 - Horizontal bar charts for rankings
+
+### Shipping Performance Analysis
+
+The `shipping_performance_analysis.ipynb` notebook includes:
+- **Distribution Box Plots**: Shows shipping delay distributions by mode with quartiles and outliers
+- **Average Delay Bar Charts**: Clear comparison of mean delays across shipping modes
+- **Time Series Line Charts**: Trends of shipping performance over time by mode
 
 ## 🔍 Analysis Methodology
 
@@ -134,6 +149,7 @@ The analysis includes various visualizations:
 - Regional performance varies significantly, with certain states driving most sales
 - Consumer segment represents the majority of customers
 - Profitability varies widely across product categories, with some requiring pricing adjustments
+- Shipping delays vary by mode: First Class (~3 days), Second Class (~4 days), Standard Class (~5 days)
 
 ## 🎓 Skills Demonstrated
 
@@ -149,7 +165,6 @@ The analysis includes various visualizations:
 
 Potential areas for extended analysis:
 - Customer retention and lifetime value analysis
-- Shipping cost optimization
 - Discount effectiveness analysis
 - Product bundling opportunities
 - Time series forecasting
