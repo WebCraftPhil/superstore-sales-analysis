@@ -33,6 +33,11 @@ This project analyzes retail sales data from a fictional superstore to uncover i
    - Profit margin calculations
    - Identification of high and low-margin products
 
+6. **How does shipping performance vary by shipping mode?**
+   - Distribution of shipping delays across different shipping modes
+   - Average shipping delay comparison
+   - Time-series trends in shipping performance
+
 ## 📁 Project Structure
 
 ```
@@ -42,7 +47,9 @@ superstore-sales-analysis/
 │   └── superstore_sales.csv          # Sample retail sales dataset
 │
 ├── notebooks/
-│   └── superstore_analysis.ipynb     # Main analysis notebook
+│   ├── superstore_analysis.ipynb     # Main analysis notebook
+│   ├── 01_exploratory_analysis.ipynb # Initial exploratory analysis
+│   └── 02_shipping_performance_analysis.ipynb # Shipping performance deep-dive
 │
 ├── analysis.py                       # Python script for quick analysis
 ├── requirements.txt                   # Python dependencies
@@ -90,7 +97,21 @@ For the complete interactive analysis with visualizations:
 jupyter notebook
 ```
 
-2. Open `notebooks/superstore_analysis.ipynb` and run the cells
+2. Open `notebooks/superstore_analysis.ipynb` for the main analysis, or `notebooks/02_shipping_performance_analysis.ipynb` for the shipping performance deep-dive
+
+**Option 3: Shipping Performance Analysis**
+
+For a focused analysis on shipping performance by shipping mode:
+
+```bash
+jupyter notebook notebooks/02_shipping_performance_analysis.ipynb
+```
+
+This notebook includes:
+- Distribution analysis of shipping delays by mode
+- Average shipping delay comparisons
+- Time-series trends in shipping performance
+- Detailed business insights and recommendations
 
 ## 📦 Dependencies
 
@@ -134,6 +155,8 @@ The analysis includes various visualizations:
 - Regional performance varies significantly, with certain states driving most sales
 - Consumer segment represents the majority of customers
 - Profitability varies widely across product categories, with some requiring pricing adjustments
+- **Shipping performance differs by service tier**, with First Class delivering in ~3 days, Second Class in ~4 days, and Standard Class in ~5 days
+- **Shipping delays remain consistent over time**, indicating reliable logistics operations
 
 ## 🎓 Skills Demonstrated
 
@@ -149,7 +172,6 @@ The analysis includes various visualizations:
 
 Potential areas for extended analysis:
 - Customer retention and lifetime value analysis
-- Shipping cost optimization
 - Discount effectiveness analysis
 - Product bundling opportunities
 - Time series forecasting
