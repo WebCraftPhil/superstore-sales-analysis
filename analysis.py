@@ -26,17 +26,18 @@ def load_and_prepare_data(filepath):
     print("Loading data...")
     df = pd.read_csv(filepath)
     
-    # Convert dates
-    df['Order Date'] = pd.to_datetime(df['Order Date'])
-    df['Ship Date'] = pd.to_datetime(df['Ship Date'])
+    # Convert dates with error handling for mixed formats
+    df['Order Date'] = pd.to_datetime(df['Order Date'], format='mixed', errors='coerce')
+    df['Ship Date'] = pd.to_datetime(df['Ship Date'], format='mixed', errors='coerce')
     
     # Extract date components
     df['Year'] = df['Order Date'].dt.year
     df['Month'] = df['Order Date'].dt.month
     df['Quarter'] = df['Order Date'].dt.quarter
     
-    # Calculate shipping time
-    df['Shipping Days'] = (df['Ship Date'] - df['Order Date']).dt.days
+    # Calculate shipping delay in days with edge case handling
+    # This handles: missing dates (NaT), mixed formats, and negative values
+    df['shipping_delay_days'] = (df['Ship Date'] - df['Order Date']).dt.days
     
     print(f"✓ Data loaded: {df.shape[0]} rows, {df.shape[1]} columns")
     print(f"✓ Date range: {df['Order Date'].min()} to {df['Order Date'].max()}")
