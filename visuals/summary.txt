@@ -1,0 +1,30 @@
+Concise Shipping Analysis Summary
+--------------------------------
+Total records: 9800
+Order date invalid: 0
+Ship date invalid: 0
+
+Overall shipping delay (days):
+- count: 9800
+- mean: 9.22265306122449
+- median: 4.0
+- std: 95.4475432406012
+- min: -321.0
+- max: 214.0
+- iqr_days: 59.0
+
+Ship Mode summary (median, IQR, neg_rate, long_rate_gt7d):
+- Same Day: median=0.0, IQR=0.0, neg_rate=0.004, long_rate_gt7d=0.030
+- First Class: median=3.0, IQR=57.0, neg_rate=0.105, long_rate_gt7d=0.360
+- Second Class: median=4.0, IQR=59.0, neg_rate=0.160, long_rate_gt7d=0.309
+- Standard Class: median=5.0, IQR=91.0, neg_rate=0.208, long_rate_gt7d=0.308
+
+Suspicious records flagged: 1684 (threshold > 290.3 days)
+
+Spearman correlation (Sales vs Delay):
+- correlation: 0.00036495685987423474, p-value: 0.971183263499668
+
+Recommended next steps:
+- Investigate negative-delay records and fix date-entry or ETL issues
+- Review high-variability ship modes and long-tail delays (>7 days)
+- Consider prioritizing high-sales orders for faster fulfillment if correlation shows longer delays for larger orders
