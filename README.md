@@ -161,8 +161,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👤 Author
 
-**Philip Auerbach**
+**Phillip Greene**
 - GitHub: [@WebCraftPhil](https://github.com/WebCraftPhil)
+- X(Twitter): [@vtguy65](https://x.com/vtguy65)
 
 ## 🙏 Acknowledgments
 
