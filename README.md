@@ -74,8 +74,8 @@ This analysis helps stakeholders make faster, evidence-based decisions by connec
 
 ## Tableau/Public Dashboard Links
 
-- Tableau Public: [Add link here](https://public.tableau.com/)
-- Interactive dashboard notes: [Add link or short summary here](#)
+- Tableau Public Dashboard: [Add your dashboard URL](https://public.tableau.com/)
+- Tableau Public Profile: [Add your Tableau profile URL](https://public.tableau.com/)
 
 ## Repository Structure
 
@@ -121,6 +121,6 @@ I am an entry-level data analyst focused on turning raw business data into clear
 
 ## Contact
 
-- LinkedIn: [Add LinkedIn URL](https://www.linkedin.com/)
+- LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/)
 - GitHub: [@WebCraftPhil](https://github.com/WebCraftPhil)
-- Portfolio: [Add portfolio URL](https://example.com)
+- Portfolio: [Your Portfolio Site](https://example.com)
