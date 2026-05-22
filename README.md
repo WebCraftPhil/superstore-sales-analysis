@@ -1,237 +1,126 @@
 # Superstore Sales Analysis
 
-A portfolio-style data analysis project showcasing retail sales analysis using Python and pandas. This project demonstrates fundamental data analysis skills for entry-level data analyst roles.
+Retail sales analysis project built to answer practical business questions on revenue, profitability, seasonality, and customer segments using Python, Excel-style analysis outputs, and Tableau-ready data.
 
-## 📊 Project Overview
+## Executive Summary
 
-This project analyzes retail sales data from a fictional superstore to uncover insights about sales performance, profitability, and customer behavior. The analysis focuses on answering practical business questions using clear, step-by-step Python code that's easy to understand and share with non-technical stakeholders.
+This project analyzes Superstore order data to identify where sales come from, when performance peaks, and which areas need margin improvement. The analysis highlights category and segment performance, recurring monthly patterns, and shipping service behavior to support decisions on pricing, inventory, and operations.
 
-## 🎯 Business Questions Answered
+## Business Problem
 
-1. **What are the sales trends over time?**
-   - Year-over-year growth analysis
-   - Monthly seasonal patterns
-   - Peak sales periods identification
+Retail leaders need a clear view of:
+- Which categories and segments drive revenue
+- Where profit leakage is happening
+- How seasonality affects demand
+- How shipping performance may impact customer experience
 
-2. **Which products and categories perform best?**
-   - Top-performing categories and sub-categories
-   - Sales distribution across product types
-   - Product performance comparison
+## Dataset Overview
 
-3. **How does regional performance vary?**
-   - Sales by geographic region
-   - Top-performing states
-   - Regional market share analysis
+| Item | Details |
+|---|---|
+| Dataset | Superstore sales data (portfolio dataset) |
+| Scope | Multi-year U.S. retail orders |
+| Core fields | Order Date, Ship Date, Category, Sub-Category, Segment, Region, Sales, Profit |
+| Outputs | Processed CSV summaries and notebook-based analysis |
 
-4. **What customer segments generate the most revenue?**
-   - Customer segment breakdown (Consumer, Corporate, Home Office)
-   - Average order value by segment
-   - Purchasing behavior patterns
+## Tools & Technologies
 
-5. **Which products are most profitable?**
-   - Profit analysis by category and sub-category
-   - Profit margin calculations
-   - Identification of high and low-margin products
+- Python (pandas, matplotlib, seaborn)
+- Jupyter Notebooks
+- Excel-friendly CSV outputs in `data/processed/`
+- Tableau Public (dashboard-ready placeholders included)
 
-6. **How does shipping performance vary by mode?**
-   - Shipping delay analysis across different shipping modes
-   - Distribution and trends of delivery times
-   - Identification of shipping efficiency opportunities
+## Project Workflow
 
-## 📁 Project Structure
+1. Load and profile raw sales data
+2. Clean date and numeric fields
+3. Aggregate by category, segment, and month
+4. Analyze trends, profitability, and shipping behavior
+5. Summarize findings and recommendations for business stakeholders
 
-```
-superstore-sales-analysis/
-│
-├── data/
-│   └── superstore_sales.csv          # Sample retail sales dataset
-│
-├── notebooks/
-│   ├── superstore_analysis.ipynb          # Main analysis notebook
-│   ├── 01_exploratory_analysis.ipynb      # Initial exploratory data analysis
-│   └── shipping_performance_analysis.ipynb # Shipping delay analysis
-│
-├── analysis.py                       # Python script for quick analysis
-├── requirements.txt                   # Python dependencies
-├── README.md                         # Project documentation
-└── .gitignore                        # Git ignore file
-```
+## Key Business Questions
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.8 or higher
-- Jupyter Notebook or JupyterLab
-
-### Installation
-
-1. Clone this repository:
-```bash
-git clone https://github.com/WebCraftPhil/superstore-sales-analysis.git
-cd superstore-sales-analysis
-```
-
-2. Install required packages:
-```bash
-pip install -r requirements.txt
-```
-
-### Usage Options
-
-**Option 1: Run the Python Script (Quick Analysis)**
-
-For a quick text-based analysis with key insights:
-```bash
-python analysis.py
-```
-
-This will output all analysis results directly to the console.
-
-**Option 2: Use Jupyter Notebook (Full Interactive Analysis)**
-
-For the complete interactive analysis with visualizations:
-
-1. Launch Jupyter Notebook:
-```bash
-jupyter notebook
-```
-
-2. Open `notebooks/superstore_analysis.ipynb` and run the cells
-
-## 📦 Dependencies
-
-- **pandas**: Data manipulation and analysis
-- **matplotlib**: Basic plotting and visualizations
-- **seaborn**: Statistical data visualization
-- **jupyter**: Interactive notebook environment
-
-## 📈 Key Features
-
-- **Clear, readable code**: Written with clarity over cleverness
-- **Step-by-step approach**: Each analysis section builds on the previous one
-- **Well-labeled visualizations**: Charts designed for easy interpretation
-- **Business-focused**: Answers practical business questions
-- **Beginner-friendly**: Extensive comments and explanations
-- **No machine learning**: Focus on fundamental analysis techniques
-- **Portfolio-ready**: Suitable for showcasing to potential employers
-
-## 📊 Sample Visualizations
-
-The analysis includes various visualizations:
-- Line charts for time series trends
-- Bar charts for category comparisons
-- Box plots for distribution analysis
-- Pie charts for distribution analysis
-- Scatter plots for relationship analysis
-- Horizontal bar charts for rankings
-
-### Shipping Performance Analysis
-
-The `shipping_performance_analysis.ipynb` notebook includes:
-- **Distribution Box Plots**: Shows shipping delay distributions by mode with quartiles and outliers
-- **Average Delay Bar Charts**: Clear comparison of mean delays across shipping modes
-- **Time Series Line Charts**: Trends of shipping performance over time by mode
-
-## 🔍 Analysis Methodology
-
-1. **Data Loading**: Import dataset using pandas
-2. **Data Exploration**: Understand structure and content
-3. **Data Cleaning**: Convert dates, handle missing values
-4. **Analysis**: Answer each business question systematically
-5. **Visualization**: Create clear, labeled charts
-6. **Insights**: Summarize findings and recommendations
-
-## 📝 Key Insights
-
-- Sales show consistent growth patterns over time with identifiable seasonal trends
-- Technology and Office Supplies are the largest revenue categories
-- Regional performance varies significantly, with certain states driving most sales
-- Consumer segment represents the majority of customers
-- Profitability varies widely across product categories, with some requiring pricing adjustments
-- Shipping delays vary by mode: First Class (~3 days), Second Class (~4 days), Standard Class (~5 days)
-
-## 🎓 Skills Demonstrated
-
-- Data manipulation with pandas
-- Exploratory data analysis (EDA)
-- Data visualization with matplotlib and seaborn
-- Business metrics calculation (profit margins, growth rates)
-- Statistical summarization
-- Clear documentation and communication
-- Jupyter Notebook proficiency
-
-## 💡 Future Enhancements
-
-Potential areas for extended analysis:
-- Customer retention and lifetime value analysis
-- Discount effectiveness analysis
-- Product bundling opportunities
-- Time series forecasting
-- Customer segmentation clustering
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👤 Author
-
-**Phillip Greene**
-- GitHub: [@WebCraftPhil](https://github.com/WebCraftPhil)
-- X(Twitter): [@vtguy65](https://x.com/vtguy65)
-
-## 🙏 Acknowledgments
-
-- Dataset inspired by the classic Superstore dataset used in data analysis education
-- Created as a portfolio project for data analyst job applications
-- Designed with feedback from hiring managers and data professionals
-
----
-
-**Note**: This is a portfolio project created for demonstration purposes. The data is fictional and meant to showcase data analysis skills.
-## Overview
-This project analyzes retail sales data from a fictional superstore to uncover revenue drivers, seasonal trends, and underperforming regions. The goal is to demonstrate practical data analysis skills using Python, Excel, and Tableau to answer real business questions.
-
-## Dataset
-- Source: Public Superstore Sales dataset
-- Records: ~10,000+ orders
-- Key fields: Order Date, Product Category, Sub-Category, Sales, Profit, Region
-
-## Tools Used
-- Python (pandas, matplotlib)
-- Excel (pivot tables, lookup functions)
-- Tableau Public (interactive dashboards)
-
-## Business Questions
 - Which product categories and sub-categories generate the most revenue?
-- How does seasonality affect sales performance?
-- Which regions are underperforming in terms of profit?
-- Are there high-revenue but low-profit product segments?
+- What monthly and yearly sales patterns are visible?
+- Which customer segments contribute most to total sales?
+- Which regions or product areas show lower profitability?
+- How do shipping delays vary by shipping mode?
 
 ## Key Insights
-- A small number of product categories drive a majority of total revenue.
-- Sales exhibit clear seasonal spikes during specific months.
-- Certain regions consistently underperform despite strong order volume.
-- Some high-volume products have low or negative profit margins.
+
+- Consumer is the top revenue segment, with Corporate and Home Office trailing.
+- Sales show recurring seasonal peaks, and rolling monthly trends clarify demand direction.
+- Technology and Office Supplies are major contributors to revenue.
+- Profitability is uneven across products, suggesting pricing and mix optimization opportunities.
+- Shipping delay patterns differ by ship mode, indicating service-level consistency gaps.
 
 ## Recommendations
-- Focus marketing and inventory investment on high-margin categories.
-- Review pricing or cost structure for consistently unprofitable products.
-- Target underperforming regions with localized promotions or logistics improvements.
 
-## Deliverables
-- Python notebook for data cleaning and analysis
-- Excel workbook with pivot-table analysis
-- Tableau dashboard for executive-level insights
+- Prioritize inventory and campaigns for high-performing categories during peak periods.
+- Review pricing or discount strategy for low-margin product groups.
+- Use segment-specific messaging, with strong focus on Consumer and tailored B2B offers for Corporate.
+- Investigate shipping outliers and improve delivery consistency for slower modes.
 
-## Tableau Dashboard
-[Link to Tableau Public dashboard will go here]
+## Business Impact
 
-## Next Steps
-- Deeper customer segmentation analysis
-- Profit optimization modeling
-- Forecasting future sales trends
+This analysis helps stakeholders make faster, evidence-based decisions by connecting sales trends to practical actions. The outputs support better demand planning, stronger margin management, and clearer prioritization of marketing and operations efforts.
 
-## Conclusion
-# superstore-sales-analysis
-Retail sales data analysis using Python, Excel, and Tableau to uncover revenue drivers, seasonal trends, and business insights.
+## Dashboard Preview
+
+> Add dashboard screenshots in the `visuals/` folder and replace these placeholders.
+
+- `[Placeholder] visuals/dashboard_sales_overview.png`
+- `[Placeholder] visuals/dashboard_profitability_overview.png`
+
+## Tableau/Public Dashboard Links
+
+- Tableau Public Dashboard: [Add your dashboard URL](https://public.tableau.com/)
+- Tableau Public Profile: [Add your Tableau profile URL](https://public.tableau.com/)
+
+## Repository Structure
+
+```text
+superstore-sales-analysis/
+├── analysis.py
+├── README.md
+├── requirements.txt
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── superstore_sales.csv
+├── notebooks/
+│   ├── 01_exploratory_analysis.ipynb
+│   ├── 02_aggregate_sales_by_category.ipynb
+│   ├── 03_monthly_sales_trends.ipynb
+│   ├── shipping_performance_analysis.ipynb
+│   └── superstore_analysis.ipynb
+├── scripts/
+├── docs/
+│   └── case_study.md
+└── visuals/
+```
+
+## Skills Demonstrated
+
+- Data cleaning and transformation with pandas
+- Exploratory and business-focused data analysis
+- Trend and category performance analysis
+- Profitability and segment-level interpretation
+- Clear stakeholder communication through summaries and visuals
+
+## Future Improvements
+
+- Add deeper state and regional profitability drill-downs
+- Expand product-level margin analysis
+- Publish a complete Tableau dashboard with filters and KPI cards
+- Add a short slide-style business presentation for hiring reviews
+
+## About Me
+
+I am an entry-level data analyst focused on turning raw business data into clear insights and practical recommendations.
+
+## Contact
+
+- LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/)
+- GitHub: [@WebCraftPhil](https://github.com/WebCraftPhil)
+- Portfolio: [Your Portfolio Site](https://example.com)
