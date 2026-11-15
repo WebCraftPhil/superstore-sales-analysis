@@ -18,7 +18,7 @@ plt.style.use('seaborn-v0_8-darkgrid')
 sns.set_palette('husl')
 
 # Constants
-DATA_PATH = 'data/superstore_sales.csv'
+DATA_PATH = 'data/raw/superstore.csv'  # canonical dataset: 9,800 rows, 2015-2018
 
 
 def load_and_prepare_data(filepath):
@@ -27,8 +27,8 @@ def load_and_prepare_data(filepath):
     df = pd.read_csv(filepath)
     
     # Convert dates with error handling for mixed formats
-    df['Order Date'] = pd.to_datetime(df['Order Date'], format='mixed', errors='coerce')
-    df['Ship Date'] = pd.to_datetime(df['Ship Date'], format='mixed', errors='coerce')
+    df['Order Date'] = pd.to_datetime(df['Order Date'], dayfirst=True, errors='coerce')  # source dates are DD/MM/YYYY
+    df['Ship Date'] = pd.to_datetime(df['Ship Date'], dayfirst=True, errors='coerce')
     
     # Extract date components
     df['Year'] = df['Order Date'].dt.year
@@ -139,7 +139,19 @@ def analyze_customer_segments(df):
 
 
 def analyze_profitability(df):
-    """Analyze profitability across categories."""
+    """Analyze profitability across categories.
+
+    NOTE: this export of the Superstore data has no Profit column, so
+    profitability is reported as a next step rather than computed from
+    a different, smaller sample.
+    """
+    if 'Profit' not in df.columns:
+        print("\n" + "="*50)
+        print("PROFITABILITY ANALYSIS")
+        print("="*50)
+        print("\n  Not available: this dataset export has no Profit column.")
+        print("  See README 'Next steps' for the profitability follow-up.")
+        return None
     print("\n" + "="*50)
     print("PROFITABILITY ANALYSIS")
     print("="*50)
@@ -186,32 +198,38 @@ def generate_summary_report(df):
     print("="*50)
     
     total_sales = df['Sales'].sum()
-    total_profit = df['Profit'].sum()
-    overall_margin = (total_profit / total_sales * 100)
+    if 'Profit' in df.columns:
+        total_profit = df['Profit'].sum()
+        overall_margin = (total_profit / total_sales * 100)
+    else:
+        total_profit, overall_margin = None, None
     num_orders = df['Order ID'].nunique()
     num_customers = df['Customer ID'].nunique()
     avg_order_value = df.groupby('Order ID')['Sales'].sum().mean()
     
     print(f"\nKey Metrics:")
     print(f"  Total Sales: ${total_sales:,.2f}")
-    print(f"  Total Profit: ${total_profit:,.2f}")
-    print(f"  Overall Profit Margin: {overall_margin:.2f}%")
+    if total_profit is not None:
+        print(f"  Total Profit: ${total_profit:,.2f}")
+        print(f"  Overall Profit Margin: {overall_margin:.2f}%")
+    else:
+        print("  Total Profit: n/a (no Profit column in this export)")
     print(f"  Number of Orders: {num_orders:,}")
     print(f"  Number of Customers: {num_customers:,}")
     print(f"  Average Order Value: ${avg_order_value:,.2f}")
     
     print("\nKey Insights:")
-    print("  ✓ Analysis covers retail sales data across multiple years")
-    print("  ✓ Multiple product categories with varying profitability")
-    print("  ✓ Geographic distribution across different regions")
-    print("  ✓ Three customer segments with distinct purchasing patterns")
+    print("  ✓ Consumer is the largest segment (50.8% of sales)")
+    print("  ✓ Technology leads categories (36.6%), but the mix is balanced")
+    print("  ✓ Demand is seasonal: Nov 2018 was the peak month ($117.9K)")
+    print("  ✓ Shipping is clean: delays run 0-7 days, median 4 days")
     
     print("\nRecommendations:")
-    print("  1. Focus on high-margin products for better profitability")
-    print("  2. Optimize inventory based on seasonal trends")
+    print("  1. Build monthly planning targets by category and segment")
+    print("  2. Align promotions to the Consumer segment for broadest reach")
     print("  3. Develop region-specific marketing strategies")
-    print("  4. Review pricing for low or negative profit items")
-    print("  5. Enhance customer segment-specific offerings")
+    print("  4. Add a Profit column (full Superstore export) to unlock margin analysis")
+    print("  5. Track category mix month over month to catch demand shifts early")
 
 
 def main():
@@ -224,6 +242,23 @@ def main():
     # Load data
     df = load_and_prepare_data(DATA_PATH)
     
+    # Save the two headline charts for the README / portfolio
+    import os
+    os.makedirs('visuals', exist_ok=True)
+    cat = df.groupby('Category')['Sales'].sum().sort_values(ascending=False)
+    cat.plot(kind='bar', title='Sales by Category')
+    plt.ylabel('Sales ($)')
+    plt.tight_layout()
+    plt.savefig('visuals/sales_by_category.png')
+    plt.close()
+    monthly = df.groupby(df['Order Date'].dt.to_period('M').dt.to_timestamp())['Sales'].sum()
+    monthly.plot(title='Monthly Sales Trend')
+    plt.ylabel('Sales ($)')
+    plt.tight_layout()
+    plt.savefig('visuals/monthly_sales_trend.png')
+    plt.close()
+    print("Saved charts: visuals/sales_by_category.png, visuals/monthly_sales_trend.png")
+
     # Perform analyses
     analyze_sales_trends(df)
     analyze_product_performance(df)

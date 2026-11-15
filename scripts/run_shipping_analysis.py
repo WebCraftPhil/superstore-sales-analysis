@@ -11,7 +11,6 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from dateutil import parser
 from scipy.stats import spearmanr
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,16 +20,10 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 
 def safe_parse_dates(series: pd.Series) -> pd.Series:
-    s = pd.to_datetime(series, errors='coerce', infer_datetime_format=True)
-    mask = s.isna()
-    if mask.any():
-        def _try_parse(x):
-            try:
-                return parser.parse(str(x))
-            except Exception:
-                return pd.NaT
-        s.loc[mask] = series[mask].apply(_try_parse)
-    return pd.to_datetime(s, errors='coerce')
+    # Source dates are DD/MM/YYYY (e.g. 08/11/2017 = 8 Nov 2017).
+    # Parsing them month-first silently corrupts delays (negative
+    # values, 90+ day outliers), so dayfirst is required here.
+    return pd.to_datetime(series, dayfirst=True, errors='coerce')
 
 
 def main():
@@ -134,8 +127,12 @@ def main():
     lines.append(f"- correlation: {corr}, p-value: {pval}")
     lines.append('')
     lines.append('Recommended next steps:')
-    lines.append('- Investigate negative-delay records and fix date-entry or ETL issues')
-    lines.append('- Review high-variability ship modes and long-tail delays (>7 days)')
+    if len(suspicious) == 0:
+        lines.append('- No negative or extreme delays found: shipping performance is clean in this export')
+        lines.append('- Standard Class is the slowest mode; review it first if fulfillment speed becomes a goal')
+    else:
+        lines.append('- Investigate negative-delay records and fix date-entry or ETL issues')
+        lines.append('- Review high-variability ship modes and long-tail delays (>7 days)')
     lines.append('- Consider prioritizing high-sales orders for faster fulfillment if correlation shows longer delays for larger orders')
 
     (OUT / 'summary.txt').write_text('\n'.join(lines))
