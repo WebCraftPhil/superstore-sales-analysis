@@ -25,10 +25,11 @@ if not os.path.exists(raw_path):
 
 # Load with parsing if possible
 try:
-    df = pd.read_csv(raw_path, parse_dates=['Order Date'], low_memory=False)
+    df = pd.read_csv(raw_path, low_memory=False)
+    df['Order Date'] = pd.to_datetime(df['Order Date'], dayfirst=True, errors='coerce')  # source dates are DD/MM/YYYY
 except Exception:
     df = pd.read_csv(raw_path, low_memory=False)
-    df['Order Date'] = pd.to_datetime(df.get('Order Date'), errors='coerce')
+    df['Order Date'] = pd.to_datetime(df.get('Order Date'), dayfirst=True, errors='coerce')  # source dates are DD/MM/YYYY
 
 # Basic cleaning
 df['Sales'] = pd.to_numeric(df['Sales'], errors='coerce')
@@ -57,7 +58,7 @@ if 'Category' in df.columns:
     # Monthly x Category pivot
     monthly_cat = (
         df.groupby([df['Order Date'].dt.to_period('M').dt.to_timestamp(), 'Category'])['Sales']
-        .sum().reset_index().pivot(index=0, columns=1, values='Sales').fillna(0)
+        .sum().reset_index().pivot(index='Order Date', columns='Category', values='Sales').fillna(0)
     )
     monthly_cat.index.name = 'Month'
     monthly_cat.to_csv(os.path.join(out_dir, 'monthly_sales_by_category.csv'))
