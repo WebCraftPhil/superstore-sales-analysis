@@ -97,8 +97,7 @@ stated next step (bring in the full Superstore export), not a finding.
   outputs as a baseline.
 - Bring in the full Superstore export (with `Profit`) to add margin analysis
   by sub-category and region, so revenue growth is paired with margin protection.
-- Build the Tableau dashboard from `tableau/BUILD_GUIDE.md` — the data file
-  and sheet specs are ready.
+- Explore the live Tableau dashboard (linked above); the build spec stays in `tableau/BUILD_GUIDE.md` for reference.
 - Document a recurring review cadence so analysis supports ongoing decisions,
   not one-time reporting.
 
@@ -126,13 +125,11 @@ README matches the regenerated `data/processed/` files.
 
 ## Tableau Dashboard
 
-The dashboard build is staged, not yet built: one tidy file
-(`tableau/superstore_tableau.csv`, 9,800 rows) plus a step-by-step spec in
-[`tableau/BUILD_GUIDE.md`](tableau/BUILD_GUIDE.md) — KPI cards, category and
+The dashboard is live on Tableau Public: [**Superstore Data Viz**](https://public.tableau.com/app/profile/phil.greene/viz/SuperstoreDataViz_17947709580860/Sheet6) — KPI cards, category and
 segment bars, monthly trend, and shipping delay by mode, with Year / Category /
-Segment filters. About 20 minutes to assemble in **Tableau Public's web
-authoring (no install: free account at public.tableau.com → Create a Viz →
-upload the CSV)**.
+Segment filters. Built from one tidy file
+(`tableau/superstore_tableau.csv`, 9,800 rows) following the step-by-step spec in
+[`tableau/BUILD_GUIDE.md`](tableau/BUILD_GUIDE.md).
 
 ## Repository Structure
 
