@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Aggregate sales by Category from data/raw/superstore.csv
-Writes CSV to visuals/sales_by_category.csv and a short summary to visuals/summary.txt
+Writes CSV to visuals/sales_by_category.csv and a short summary to
+visuals/sales_by_category_summary.txt (visuals/summary.txt belongs to the
+shipping analysis, so this script must not overwrite it).
 """
 from pathlib import Path
 import sys
@@ -9,7 +11,7 @@ import csv
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "data" / "raw" / "superstore.csv"
 OUT_CSV = ROOT / "visuals" / "sales_by_category.csv"
-OUT_SUM = ROOT / "visuals" / "summary.txt"
+OUT_SUM = ROOT / "visuals" / "sales_by_category_summary.txt"
 
 def run_pandas():
     import pandas as pd

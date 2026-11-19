@@ -68,10 +68,17 @@ def main():
     threshold = med + 3 * stdv if pd.notna(stdv) else (med + 30 if pd.notna(med) else 30)
     suspicious = df[(df['Shipping Delay (Days)'] < 0) | (df['Shipping Delay (Days)'] > threshold)]
 
-    # correlation sales vs delay
+    # correlation order size vs delay
+    # Each row is an order line, so sum Sales per Order ID first: the question
+    # is whether bigger orders ship slower, not bigger lines. Every line in an
+    # order shares one ship date, so the order's delay is its first line's.
     mask = df['Shipping Delay (Days)'].notna() & df['Sales'].notna()
     if mask.sum() > 0:
-        corr, pval = spearmanr(df.loc[mask, 'Sales'], df.loc[mask, 'Shipping Delay (Days)'])
+        orders = df.loc[mask].groupby('Order ID').agg(
+            order_sales=('Sales', 'sum'),
+            delay=('Shipping Delay (Days)', 'first'),
+        )
+        corr, pval = spearmanr(orders['order_sales'], orders['delay'])
     else:
         corr, pval = None, None
 
@@ -117,13 +124,13 @@ def main():
     for k, v in overall_stats.items():
         lines.append(f"- {k}: {v}")
     lines.append('')
-    lines.append('Ship Mode summary (median, IQR, neg_rate, long_rate_gt7d):')
+    lines.append('Ship Mode summary, per order line (median, IQR, neg_rate, long_rate_gt7d):')
     for idx, row in ship_stats.sort_values('median').iterrows():
         lines.append(f"- {idx}: median={row['median']:.1f}, IQR={row.get('IQR', float('nan')):.1f}, neg_rate={row.get('neg_rate',0):.3f}, long_rate_gt7d={row.get('long_rate_gt7d',0):.3f}")
     lines.append('')
     lines.append(f"Suspicious records flagged: {len(suspicious)} (threshold > {threshold:.1f} days)")
     lines.append('')
-    lines.append('Spearman correlation (Sales vs Delay):')
+    lines.append('Spearman correlation (order total Sales vs Delay):')
     lines.append(f"- correlation: {corr}, p-value: {pval}")
     lines.append('')
     lines.append('Recommended next steps:')

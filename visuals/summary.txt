@@ -13,7 +13,7 @@ Overall shipping delay (days):
 - max: 7.0
 - iqr_days: 2.0
 
-Ship Mode summary (median, IQR, neg_rate, long_rate_gt7d):
+Ship Mode summary, per order line (median, IQR, neg_rate, long_rate_gt7d):
 - Same Day: median=0.0, IQR=0.0, neg_rate=0.000, long_rate_gt7d=0.000
 - First Class: median=2.0, IQR=1.0, neg_rate=0.000, long_rate_gt7d=0.000
 - Second Class: median=3.0, IQR=2.0, neg_rate=0.000, long_rate_gt7d=0.000
@@ -21,8 +21,8 @@ Ship Mode summary (median, IQR, neg_rate, long_rate_gt7d):
 
 Suspicious records flagged: 0 (threshold > 9.2 days)
 
-Spearman correlation (Sales vs Delay):
-- correlation: -0.014282744259349943, p-value: 0.15741731617141747
+Spearman correlation (order total Sales vs Delay):
+- correlation: -0.013103683908446106, p-value: 0.35803245514328874
 
 Recommended next steps:
 - No negative or extreme delays found: shipping performance is clean in this export
