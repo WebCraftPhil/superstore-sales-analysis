@@ -124,7 +124,7 @@ def main():
     for k, v in overall_stats.items():
         lines.append(f"- {k}: {v}")
     lines.append('')
-    lines.append('Ship Mode summary (median, IQR, neg_rate, long_rate_gt7d):')
+    lines.append('Ship Mode summary, per order line (median, IQR, neg_rate, long_rate_gt7d):')
     for idx, row in ship_stats.sort_values('median').iterrows():
         lines.append(f"- {idx}: median={row['median']:.1f}, IQR={row.get('IQR', float('nan')):.1f}, neg_rate={row.get('neg_rate',0):.3f}, long_rate_gt7d={row.get('long_rate_gt7d',0):.3f}")
     lines.append('')

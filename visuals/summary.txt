@@ -13,7 +13,7 @@ Overall shipping delay (days):
 - max: 7.0
 - iqr_days: 2.0
 
-Ship Mode summary (median, IQR, neg_rate, long_rate_gt7d):
+Ship Mode summary, per order line (median, IQR, neg_rate, long_rate_gt7d):
 - Same Day: median=0.0, IQR=0.0, neg_rate=0.000, long_rate_gt7d=0.000
 - First Class: median=2.0, IQR=1.0, neg_rate=0.000, long_rate_gt7d=0.000
 - Second Class: median=3.0, IQR=2.0, neg_rate=0.000, long_rate_gt7d=0.000
