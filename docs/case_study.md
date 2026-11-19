@@ -60,7 +60,8 @@ Adding margin analysis is the top follow-up (see below).
 1. Bring in the full Superstore export (with `Profit`) for margin analysis
    by sub-category and region.
 2. Extend the live [Tableau dashboard](https://public.tableau.com/app/profile/phil.greene/viz/SuperstoreDataViz_17947709580860/Sheet6)
-   with a segment-growth view (build spec in `tableau/BUILD_GUIDE.md`).
+   with a segment-growth view (not yet built; the current sheets are specified
+   in `tableau/BUILD_GUIDE.md`).
 3. Drill into `State`/`Region` for targeted regional strategies.
 
 ## How to reproduce
