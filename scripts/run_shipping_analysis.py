@@ -68,10 +68,17 @@ def main():
     threshold = med + 3 * stdv if pd.notna(stdv) else (med + 30 if pd.notna(med) else 30)
     suspicious = df[(df['Shipping Delay (Days)'] < 0) | (df['Shipping Delay (Days)'] > threshold)]
 
-    # correlation sales vs delay
+    # correlation order size vs delay
+    # Each row is an order line, so sum Sales per Order ID first: the question
+    # is whether bigger orders ship slower, not bigger lines. Every line in an
+    # order shares one ship date, so the order's delay is its first line's.
     mask = df['Shipping Delay (Days)'].notna() & df['Sales'].notna()
     if mask.sum() > 0:
-        corr, pval = spearmanr(df.loc[mask, 'Sales'], df.loc[mask, 'Shipping Delay (Days)'])
+        orders = df.loc[mask].groupby('Order ID').agg(
+            order_sales=('Sales', 'sum'),
+            delay=('Shipping Delay (Days)', 'first'),
+        )
+        corr, pval = spearmanr(orders['order_sales'], orders['delay'])
     else:
         corr, pval = None, None
 
@@ -123,7 +130,7 @@ def main():
     lines.append('')
     lines.append(f"Suspicious records flagged: {len(suspicious)} (threshold > {threshold:.1f} days)")
     lines.append('')
-    lines.append('Spearman correlation (Sales vs Delay):')
+    lines.append('Spearman correlation (order total Sales vs Delay):')
     lines.append(f"- correlation: {corr}, p-value: {pval}")
     lines.append('')
     lines.append('Recommended next steps:')

@@ -35,8 +35,8 @@ A retail team wants to plan next year's inventory, marketing and staffing. They 
 
 1. **Clean:** parse dates day-first, validate there are no missing or negative delays, compute shipping delay per order.
 2. **Aggregate:** sales by category, sub-category, segment, region, state and month (outputs in `data/processed/`).
-3. **Analyze:** year-over-year growth by segment and region, monthly seasonality, customer concentration, and shipping delay by mode (with a Spearman test for order size vs. delay).
-4. **Communicate:** charts, a two-slide summary (`visuals/slides.pdf`) and a live Tableau dashboard.
+3. **Analyze:** year-over-year growth by segment and region, monthly seasonality, customer concentration, and shipping delay by mode (with a Spearman test for order total vs. delay).
+4. **Communicate:** charts, two shipping summary slides (`visuals/slide_01.png`, `visuals/slide_02.png`, also as `visuals/slides.pdf`) and a live Tableau dashboard.
 
 ## Findings
 
@@ -53,7 +53,7 @@ A retail team wants to plan next year's inventory, marketing and staffing. They 
    98% of the 793 customers ordered more than once (median 6 orders). The top 20% of customers account for 48% of sales, so revenue is not dependent on a handful of big accounts.
 
 5. **Shipping is reliable.**
-   Every order shipped in 0 to 7 days (median 4). 60% of orders go Standard Class (median 5 days). Larger orders do not ship slower (Spearman -0.01, p = 0.16).
+   Every order shipped in 0 to 7 days (median 4). 60% of orders go Standard Class (median 5 days). Larger orders do not ship slower (Spearman correlation between order total and delay: -0.01, p = 0.36).
 
 ![Sales by category](visuals/sales_by_category.png)
 ![Shipping delay by mode](visuals/shipping_delay_boxplot.png)
@@ -70,6 +70,7 @@ A retail team wants to plan next year's inventory, marketing and staffing. They 
 
 - **Python:** pandas (cleaning, groupby aggregation, time series), matplotlib and seaborn (charts), scipy (Spearman test)
 - **Jupyter:** five notebooks that run top to bottom with saved outputs
+- **Excel-ready outputs:** every aggregate in `data/processed/` is a tidy CSV that opens straight into an Excel pivot table
 - **Tableau Public:** KPI cards, category and segment bars, monthly trend, shipping by mode, with Year / Category / Segment filters
 - **Data quality:** caught and fixed a date-parsing bug that distorted every time-based result
 
