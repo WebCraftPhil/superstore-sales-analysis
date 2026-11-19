@@ -4,7 +4,8 @@ A portfolio-style data analysis script for retail sales data.
 
 This script performs comprehensive analysis of superstore sales data,
 answering key business questions about sales trends, product performance,
-regional analysis, customer segments, and profitability.
+regional analysis, and customer segments. Profitability is not computed:
+this export has no Profit column.
 """
 
 import pandas as pd
@@ -271,7 +272,7 @@ def main():
     print("Analysis Complete!")
     print("="*50)
     print("\nFor detailed visualizations, please run the Jupyter notebook:")
-    print("  jupyter notebook notebooks/superstore_analysis.ipynb")
+    print("  jupyter notebook notebooks/05_full_analysis_walkthrough.ipynb")
 
 
 if __name__ == "__main__":

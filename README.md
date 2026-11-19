@@ -1,178 +1,107 @@
 # Superstore Sales Analysis
 
-Practical retail sales analysis focused on business decisions, not just charts.
-I used Python and notebook workflows to identify where revenue is concentrated,
-when demand rises and falls, and where teams should focus planning first.
+**Where a $2.26M retailer makes its money, when it makes it, and where its growth is really coming from.**
 
-## Executive Summary
+[Live Tableau dashboard](https://public.tableau.com/app/profile/phil.greene/viz/SuperstoreDataViz_17947709580860/Sheet6) · [Case study](docs/case_study.md) · [Notebooks](notebooks/)
 
-This project analyzes four years of Superstore order data to answer the questions
-a business team would actually ask:
+## TL;DR
 
-- What is driving total revenue?
-- Which customer groups matter most?
-- When does demand typically rise or slow down?
-- Where should operations and marketing focus first?
+- **Four months make the year.** September to December bring in **52%** of annual sales; January and February bring in just **7%**. Q4 alone is **38.5%**.
+- **The biggest segment is the slowest-growing one.** Consumer is half of revenue, but grew only **+25%** from 2015 to 2018. Corporate grew **+85%** and Home Office **+77%**.
+- **The business is growing.** Sales rose **50%** in four years ($480K in 2015 to $722K in 2018, about 15% a year), after a 4% dip in 2016.
 
-The result is a set of clean, reusable outputs in `data/processed/`, five
-executable notebooks, a Tableau-ready dataset, and charts a manager can read
-without running any code.
+![Monthly sales trend](visuals/monthly_sales_trend.png)
 
-## Dataset
+## The business question
+
+A retail team wants to plan next year's inventory, marketing and staffing. They need to know:
+
+1. Which products, customers and regions drive revenue?
+2. When does demand rise and fall?
+3. Where is growth coming from, and is fulfillment keeping up?
+
+## Data
 
 | Item | Details |
 |---|---|
-| Source | `data/raw/superstore.csv` (single canonical dataset) |
-| Scope | 9,800 U.S. retail orders, Jan 2015 – Dec 2018 |
-| Core fields | Order Date, Ship Date, Category, Sub-Category, Segment, Region, State, Sales |
-| Outputs | Aggregated CSVs by category, segment, and month in `data/processed/` |
+| Source | `data/raw/superstore.csv` (Superstore sample retail dataset) |
+| Scope | 9,800 order lines = 4,922 orders from 793 U.S. customers, Jan 2015 to Dec 2018 |
+| Core fields | Order Date, Ship Date, Ship Mode, Segment, Region, State, Category, Sub-Category, Sales |
+| Not included | Profit, Quantity, Discount (so this project makes no margin claims) |
 
-**Data note (worth knowing):** the source dates are **DD/MM/YYYY**
-(e.g. `08/11/2017` = 8 Nov 2017). Every parser in this repo uses
-`dayfirst=True`. Parsing them month-first silently scrambles monthly trends and
-produces impossible shipping delays (negative values, 90+ day outliers) — an
-earlier version of this project had exactly that bug, and the October 2026
-cleanup fixed it everywhere: scripts, notebooks, processed CSVs, and charts.
+**Data quality note:** the source dates are DD/MM/YYYY (`08/11/2017` is 8 Nov 2017). An earlier version of this project parsed them month-first, which silently scrambled the monthly trend and produced impossible shipping delays. I caught it, switched every parser to `dayfirst=True`, and regenerated every output.
 
-**Scope note:** this export has no `Profit`, `Quantity`, or `Discount` column,
-so this project claims sales and operations findings only. Profitability is a
-stated next step (bring in the full Superstore export), not a finding.
+## Approach
 
-## Key Metrics
+1. **Clean:** parse dates day-first, validate there are no missing or negative delays, compute shipping delay per order.
+2. **Aggregate:** sales by category, sub-category, segment, region, state and month (outputs in `data/processed/`).
+3. **Analyze:** year-over-year growth by segment and region, monthly seasonality, customer concentration, and shipping delay by mode (with a Spearman test for order size vs. delay).
+4. **Communicate:** charts, a two-slide summary (`visuals/slides.pdf`) and a live Tableau dashboard.
 
-- **Total sales analyzed:** **$2.26M** (4,922 orders, 793 customers, $459 average order value)
-- **Sales mix by category:**
-  - Technology: **$827K** (36.6%)
-  - Furniture: **$729K** (32.2%)
-  - Office Supplies: **$705K** (31.2%)
-- **Sales mix by segment:**
-  - Consumer: **$1.15M** (50.8%)
-  - Corporate: **$688K** (30.4%)
-  - Home Office: **$425K** (18.8%)
-- **Sales by year:** 2015 $480K → 2016 $459K → 2017 $600K → 2018 $722K
-- **Monthly seasonality:**
-  - Highest month: **Nov 2018 ($117.9K)**
-  - Lowest month: **Feb 2015 ($4.5K)**
+## Findings
+
+1. **Demand is concentrated in the back half of the year.**
+   Sep to Dec = 52% of sales; Nov alone is 15.5%. The peak month was Nov 2018 ($117.9K); the low was Feb 2015 ($4.5K).
+
+2. **Growth is coming from business customers, not consumers.**
+   Consumer is still the largest segment ($1.15M, 50.8%), but from 2015 to 2018 it grew +25%, while Corporate grew +85% and Home Office +77%.
+
+3. **Revenue leans on a few places and product lines.**
+   West and East = 61% of sales. California and New York alone = 33%. Phones and Chairs = 29%. The South is the smallest region (17%) and the slowest-growing (+18% since 2015).
+
+4. **Customers come back.**
+   98% of the 793 customers ordered more than once (median 6 orders). The top 20% of customers account for 48% of sales, so revenue is not dependent on a handful of big accounts.
+
+5. **Shipping is reliable.**
+   Every order shipped in 0 to 7 days (median 4). 60% of orders go Standard Class (median 5 days). Larger orders do not ship slower (Spearman -0.01, p = 0.16).
 
 ![Sales by category](visuals/sales_by_category.png)
-![Monthly sales trend](visuals/monthly_sales_trend.png)
-
-## Key Findings
-
-1. **Consumer drives most revenue.**
-   Roughly half of all sales come from Consumer customers, which makes this
-   segment the most direct lever for top-line impact.
-
-2. **Revenue is fairly balanced across categories, with Technology leading.**
-   Technology is first, but Furniture and Office Supplies are close enough that
-   planning cannot rely on one category alone.
-
-3. **Sales are seasonal, not flat — and growing.**
-   Monthly results swing from $4.5K to $117.9K, and yearly totals rise from
-   $480K (2015) to $722K (2018). Inventory and campaign timing should follow
-   demand cycles instead of fixed monthly assumptions.
-
-4. **Shipping performance is clean.**
-   Delays run 0–7 days (mean 4.0, median 4). By mode (median): Same Day 0,
-   First Class 2, Second Class 3, Standard Class 5 days. No relationship
-   between order size and delay (Spearman −0.01, p = 0.16) — fulfillment speed
-   is not quietly punishing large orders.
-
 ![Shipping delay by mode](visuals/shipping_delay_boxplot.png)
-
-## Business Impact
-
-- **Planning:** prioritize inventory around historically stronger months
-  (notably Q4) instead of spreading stock evenly.
-- **Commercial focus:** align promotions to the Consumer segment for broader
-  reach while keeping targeted offers for Corporate accounts.
-- **Performance tracking:** monitor category mix month over month to catch
-  early shifts in demand.
-- **Operational alignment:** use one recurring view to coordinate marketing,
-  fulfillment, and purchasing decisions.
 
 ## Recommendations
 
-- Build monthly planning targets by category and segment using the processed
-  outputs as a baseline.
-- Bring in the full Superstore export (with `Profit`) to add margin analysis
-  by sub-category and region, so revenue growth is paired with margin protection.
-- Explore the live Tableau dashboard (linked above); the build spec stays in `tableau/BUILD_GUIDE.md` for reference.
-- Document a recurring review cadence so analysis supports ongoing decisions,
-  not one-time reporting.
+1. **Plan the year around Sep to Dec.** Lock inventory and campaign calendars by August, since those four months carry over half of revenue.
+2. **Build a business-customer offer.** Corporate and Home Office are growing three times faster than Consumer; a volume or account-based offer targets the fastest-growing revenue.
+3. **Protect the core.** Phones and Chairs in California and New York are the largest single exposure; keep them in stock through Q4.
+4. **Review the South before spending more there.** It is the smallest region and the slowest-growing.
+5. **Add margin next.** Bring in the full Superstore export with Profit to confirm these sales wins are not margin losses.
 
-## How to Run
+## Tools and skills
+
+- **Python:** pandas (cleaning, groupby aggregation, time series), matplotlib and seaborn (charts), scipy (Spearman test)
+- **Jupyter:** five notebooks that run top to bottom with saved outputs
+- **Tableau Public:** KPI cards, category and segment bars, monthly trend, shipping by mode, with Year / Category / Segment filters
+- **Data quality:** caught and fixed a date-parsing bug that distorted every time-based result
+
+## How to run
 
 ```bash
 pip install -r requirements.txt
-
-# Full printed analysis + headline charts
-python analysis.py
-
-# Regenerate the processed CSVs
-python scripts/run_notebooks.py
-
-# Regenerate shipping charts + summary
-python scripts/run_shipping_analysis.py
-
-# Notebooks (in order): 01 exploratory, 02 category, 03 monthly trends,
-# shipping performance, then the full superstore_analysis walkthrough
-jupyter notebook notebooks/
+python analysis.py                      # printed analysis + headline charts
+python scripts/run_notebooks.py         # regenerates data/processed/
+python scripts/run_shipping_analysis.py # shipping charts + visuals/summary.txt
+jupyter notebook notebooks/             # open in order 01 to 05
 ```
 
-All notebooks execute end to end with saved outputs; every number in this
-README matches the regenerated `data/processed/` files.
-
-## Tableau Dashboard
-
-The dashboard is live on Tableau Public: [**Superstore Data Viz**](https://public.tableau.com/app/profile/phil.greene/viz/SuperstoreDataViz_17947709580860/Sheet6) — KPI cards, category and
-segment bars, monthly trend, and shipping delay by mode, with Year / Category /
-Segment filters. Built from one tidy file
-(`tableau/superstore_tableau.csv`, 9,800 rows) following the step-by-step spec in
-[`tableau/BUILD_GUIDE.md`](tableau/BUILD_GUIDE.md).
-
-## Repository Structure
+## Repository structure
 
 ```text
 superstore-sales-analysis/
-├── analysis.py                  # Full printed analysis + headline charts
-├── README.md
-├── requirements.txt
+├── analysis.py          # Full printed analysis + headline charts
 ├── data/
-│   ├── raw/superstore.csv       # Canonical dataset (9,800 rows)
-│   └── processed/               # Monthly, category, segment aggregates
-├── notebooks/                   # 5 executable notebooks with saved outputs
-├── scripts/
-│   ├── run_notebooks.py         # Regenerates data/processed/
-│   ├── run_shipping_analysis.py # Shipping charts + visuals/summary.txt
-│   ├── aggregate_sales_by_category.py
-│   └── make_slides.py
-├── docs/case_study.md
-├── tableau/
-│   ├── superstore_tableau.csv   # Tableau-ready tidy dataset
-│   └── BUILD_GUIDE.md           # Dashboard build spec
-└── visuals/                     # Charts, slide deck, shipping summary
+│   ├── raw/             # superstore.csv (9,800 rows)
+│   └── processed/       # Category, segment and monthly aggregates
+├── notebooks/           # 01 to 05, run in order
+├── scripts/             # Regenerate outputs and charts
+├── docs/case_study.md   # One-page case study
+├── tableau/             # Tableau-ready dataset + build guide
+└── visuals/             # Charts, slide deck, shipping summary
 ```
 
-## Tools Used
+## About me
 
-- Python (`pandas`, `matplotlib`, `seaborn`, `scipy`)
-- Jupyter Notebooks (all re-executed with saved outputs)
-- CSV exports for Excel-friendly review
-- Tableau-ready dataset + build guide
+I'm Phil Greene, moving into data analytics from operations, electrical and e-commerce work. I'm working toward a BS in Data Analytics at SNHU, and I build projects around the decisions a business actually has to make.
 
-## About Me
+[LinkedIn](https://www.linkedin.com/in/philgreene89) · [GitHub](https://github.com/WebCraftPhil) · [X](https://x.com/vtguy65)
 
-I am Phil Greene, an entry-level data analyst transitioning from operations, electrical, and customer-facing roles into analytics.
-
-I am currently pursuing a BS in Data Analytics at SNHU, and I am building projects that show practical business thinking, clear communication, and reliable analysis workflows.
-
-My background in independent e-commerce and operations work helps me frame analysis around real decisions, not just technical output.
-
-## Connect
-
-- LinkedIn: [Phil Greene](https://www.linkedin.com/in/philgreene89)
-- X/Twitter: [@vtguy65](https://x.com/vtguy65)
-- GitHub: [@WebCraftPhil](https://github.com/WebCraftPhil)
-
-If you are hiring for a junior data analyst role, I would be glad to connect and share more of my work.
+Hiring for a junior data analyst? I'd be glad to talk.

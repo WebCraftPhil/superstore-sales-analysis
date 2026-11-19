@@ -1,7 +1,7 @@
 # Tableau Dashboard — Build Guide
 
 The workbook is built in **Tableau Public, entirely in the browser — no install
-needed** — from one tidy file: **`superstore_tableau.csv`** — 9,800 orders,
+needed** — from one tidy file: **`superstore_tableau.csv`** — 9,800 order lines,
 Jan 2015–Dec 2018, with ISO dates, `Year`, `Month`, `shipping_delay_days`
 already computed. No joins or reshaping needed.
 
