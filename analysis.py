@@ -130,8 +130,9 @@ def analyze_customer_segments(df):
         pct = (sales / total_sales) * 100
         print(f"  {segment}: ${sales:,.2f} ({pct:.1f}%)")
     
-    # Average order value
-    segment_avg = df.groupby('Segment')['Sales'].mean().sort_values(ascending=False).round(2)
+    # Average order value: sum each order's lines first, then average per segment
+    order_totals = df.groupby(['Segment', 'Order ID'])['Sales'].sum()
+    segment_avg = order_totals.groupby('Segment').mean().sort_values(ascending=False).round(2)
     print("\nAverage Order Value by Segment:")
     for segment, avg in segment_avg.items():
         print(f"  {segment}: ${avg:,.2f}")
