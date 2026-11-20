@@ -4,7 +4,7 @@ Uses only the Python standard library, so no database server or extra
 package is needed. Each query's result prints as a small table.
 
     python scripts/run_sql.py
-    python scripts/run_sql.py --db superstore.db   # also save a .db file to explore
+    python scripts/run_sql.py --db superstore.db   # also save a new .db file to explore
 """
 import argparse
 import csv
@@ -16,17 +16,21 @@ CSV_PATH = ROOT / "data" / "raw" / "superstore.csv"
 SQL_PATH = ROOT / "sql" / "key_metrics.sql"
 
 
+def quote_identifier(name: str) -> str:
+    """Quote a column name for SQLite (column names cannot be bound as parameters)."""
+    return '"' + name.replace('"', '""') + '"'
+
+
 def load_csv(conn: sqlite3.Connection) -> int:
     with CSV_PATH.open(newline="", encoding="utf-8") as f:
         reader = csv.reader(f)
         header = next(reader)
-        cols = ", ".join(f'"{c}"' for c in header)
-        marks = ", ".join("?" for _ in header)
-        conn.execute("DROP TABLE IF EXISTS superstore")
-        conn.execute(f"CREATE TABLE superstore ({cols})")
         rows = list(reader)
+    cols = ", ".join(quote_identifier(c) for c in header)
+    marks = ", ".join("?" for _ in header)
+    with conn:  # one transaction: a failed load leaves nothing half-written
+        conn.execute(f"CREATE TABLE superstore ({cols})")
         conn.executemany(f"INSERT INTO superstore VALUES ({marks})", rows)
-    conn.commit()
     return len(rows)
 
 
@@ -62,6 +66,9 @@ def main():
                         help="SQLite file to write (default: in memory only)")
     args = parser.parse_args()
 
+    if args.db != ":memory:" and Path(args.db).exists():
+        raise SystemExit(f"{args.db} already exists. Pick a new file name so "
+                         "no existing database is overwritten.")
     conn = sqlite3.connect(args.db)
     n = load_csv(conn)
     print(f"Loaded {n:,} rows from {CSV_PATH.relative_to(ROOT)}")

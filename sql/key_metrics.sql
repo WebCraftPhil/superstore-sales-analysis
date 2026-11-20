@@ -8,7 +8,6 @@
 -- window functions (LAG, SUM OVER, NTILE, ROW_NUMBER).
 
 -- 0. Clean view: the source dates are DD/MM/YYYY, so rebuild them as ISO dates.
-DROP VIEW IF EXISTS sales;
 CREATE VIEW sales AS
 SELECT
     "Order ID"      AS order_id,
