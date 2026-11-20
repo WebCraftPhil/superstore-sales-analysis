@@ -1,0 +1,84 @@
+Loaded 9,800 rows from data/raw/superstore.csv
+
+1. Headline KPIs
+order_lines  orders  customers  total_sales  avg_order_value
+-----------  ------  ---------  -----------  ---------------
+9800         4922    793        2261537.0    459.48         
+
+2. Yearly sales and year-over-year growth
+year  sales     yoy_growth_pct
+----  --------  --------------
+2015  479856.0                
+2016  459436.0  -4.3          
+2017  600193.0  30.6          
+2018  722052.0  20.3          
+
+3. Seasonality: share of all sales by calendar month
+month  sales     pct_of_total
+-----  --------  ------------
+1      94292.0   4.2         
+2      59371.0   2.6         
+3      197574.0  8.7         
+4      136283.0  6.0         
+5      154087.0  6.8         
+6      145838.0  6.4         
+7      145536.0  6.4         
+8      157316.0  7.0         
+9      300103.0  13.3        
+10     199496.0  8.8         
+11     350162.0  15.5        
+12     321480.0  14.2        
+
+4. The back half of the year: Sep to Dec, Q4, and Jan + Feb
+sep_to_dec_pct  q4_pct  jan_feb_pct
+--------------  ------  -----------
+51.8            38.5    6.8        
+
+5. Segment growth, 2015 vs 2018 (CASE pivot)
+segment      total_sales  pct_of_total  sales_2015  sales_2018  growth_2015_to_2018_pct
+-----------  -----------  ------------  ----------  ----------  -----------------------
+Consumer     1148061.0    50.8          262957.0    328604.0    25.0                   
+Corporate    688494.0     30.4          127797.0    236044.0    85.0                   
+Home Office  424982.0     18.8          89102.0     157404.0    77.0                   
+
+6. Average order value by segment (sum lines into orders first)
+segment      orders  avg_order_value
+-----------  ------  ---------------
+Consumer     2537    452.53         
+Corporate    1491    461.77         
+Home Office  894     475.37         
+
+7. Region share and growth
+region   total_sales  pct_of_total  growth_2015_to_2018_pct
+-------  -----------  ------------  -----------------------
+West     710220.0     31.4          70.0                   
+East     669519.0     29.6          65.0                   
+Central  492647.0     21.8          38.0                   
+South    389151.0     17.2          18.0                   
+
+8. Top 5 states and sub-categories by share of sales
+kind          rnk  name          pct_of_total
+------------  ---  ------------  ------------
+state         1    California    19.7        
+state         2    New York      13.5        
+state         3    Texas         7.5         
+state         4    Washington    6.0         
+state         5    Pennsylvania  5.1         
+sub_category  1    Phones        14.5        
+sub_category  2    Chairs        14.3        
+sub_category  3    Storage       9.7         
+sub_category  4    Tables        9.0         
+sub_category  5    Binders       8.8         
+
+9. Shipping by mode, counted per order (every line in an order ships together)
+ship_mode       orders  pct_of_orders  avg_days_to_ship  min_days  max_days
+--------------  ------  -------------  ----------------  --------  --------
+Same Day        261     5.3            0.05              0.0       1.0     
+First Class     772     15.7           2.19              1.0       4.0     
+Second Class    944     19.2           3.24              1.0       5.0     
+Standard Class  2945    59.8           5.0               3.0       7.0     
+
+10. Customer loyalty: repeat buyers and how concentrated sales are
+customers  repeat_buyer_pct  top_20pct_customer_share
+---------  ----------------  ------------------------
+793        98.0              48.0                    

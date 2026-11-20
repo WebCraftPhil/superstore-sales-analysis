@@ -2,7 +2,7 @@
 
 **Where a $2.26M retailer makes its money, when it makes it, and where its growth is really coming from.**
 
-[Live Tableau dashboard](https://public.tableau.com/app/profile/phil.greene/viz/SuperstoreDataViz_17947709580860/Sheet6) · [Case study](docs/case_study.md) · [Notebooks](notebooks/)
+[Live Tableau dashboard](https://public.tableau.com/app/profile/phil.greene/viz/SuperstoreDataViz_17947709580860/Sheet6) · [Case study](docs/case_study.md) · [Notebooks](notebooks/) · [SQL](sql/key_metrics.sql)
 
 ## TL;DR
 
@@ -36,7 +36,8 @@ A retail team wants to plan next year's inventory, marketing and staffing. They 
 1. **Clean:** parse dates day-first, validate there are no missing or negative delays, compute shipping delay per order.
 2. **Aggregate:** sales by category, sub-category, segment, region, state and month (outputs in `data/processed/`).
 3. **Analyze:** year-over-year growth by segment and region, monthly seasonality, customer concentration, and shipping delay by mode (with a Spearman test for order total vs. delay).
-4. **Communicate:** charts, two shipping summary slides (`visuals/slide_01.png`, `visuals/slide_02.png`, also as `visuals/slides.pdf`) and a live Tableau dashboard.
+4. **Check in SQL:** `sql/key_metrics.sql` rebuilds the headline sales, growth, seasonality, segment, region, shipping and customer numbers with CTEs and window functions, and the results match the Python analysis (saved output in `sql/key_metrics_output.txt`).
+5. **Communicate:** charts, two shipping summary slides (`visuals/slide_01.png`, `visuals/slide_02.png`, also as `visuals/slides.pdf`) and a live Tableau dashboard.
 
 ## Findings
 
@@ -68,6 +69,7 @@ A retail team wants to plan next year's inventory, marketing and staffing. They 
 
 ## Tools and skills
 
+- **SQL:** CTEs, date parsing, CASE pivots and window functions (LAG, NTILE, ROW_NUMBER, SUM OVER) in `sql/key_metrics.sql`, run on SQLite
 - **Python:** pandas (cleaning, groupby aggregation, time series), matplotlib and seaborn (charts), scipy (Spearman test)
 - **Jupyter:** five notebooks that run top to bottom with saved outputs
 - **Excel-ready outputs:** every aggregate in `data/processed/` is a tidy CSV that opens straight into an Excel pivot table
@@ -81,6 +83,7 @@ pip install -r requirements.txt
 python analysis.py                      # printed analysis + headline charts
 python scripts/run_notebooks.py         # regenerates data/processed/
 python scripts/run_shipping_analysis.py # shipping charts + visuals/summary.txt
+python scripts/run_sql.py               # headline numbers in SQL (SQLite, no setup)
 jupyter notebook notebooks/             # open in order 01 to 05
 ```
 
@@ -94,6 +97,7 @@ superstore-sales-analysis/
 │   └── processed/       # Category, segment and monthly aggregates
 ├── notebooks/           # 01 to 05, run in order
 ├── scripts/             # Regenerate outputs and charts
+├── sql/                 # key_metrics.sql + saved output
 ├── docs/case_study.md   # One-page case study
 ├── tableau/             # Tableau-ready dataset + build guide
 └── visuals/             # Charts, slide deck, shipping summary
